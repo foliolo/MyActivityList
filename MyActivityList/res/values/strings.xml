@@ -34,8 +34,7 @@
     <!-- Texto del submenu -->
     <string name="menu_item_modif">Modificar</string>
     <string name="menu_item_delete">Borrar</string>
-    <string name="menu_item_send">Env</string>
-    <string name="menu_item_send_choose">Compartir con</string>
+    <string name="menu_item_send">Compartir</string>
 
     <!-- Texto Receiver -->
     <string name="app_name_receiver">Receiver</string>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 
@@ -30,7 +31,7 @@ public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 				);
 		//initialData(db);
 	}
-	
+/*
 	private void initialData(SQLiteDatabase db){
 		insertTravel(db, "Londres", "UK", 2012, "¡Juegos Olimpicos!");
 		insertTravel(db, "Paris", "Francia", 2007, null);
@@ -38,7 +39,7 @@ public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 		insertTravel(db, "Hamburgo", "Alemania", 2009, null);
 		insertTravel(db, "Pekin", "China", 2011, "");
 	}
-	
+*/	
 	public void insertTravel(SQLiteDatabase db, String ciudad, String pais, int anyo, String anotacion) {
 		ContentValues values = new ContentValues();
 		values.put("CIUDAD", ciudad);
@@ -94,8 +95,10 @@ public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 		return travels;
 	}
 	
-	
 	public void remove(SQLiteDatabase db, int id) {
-		db.delete(TABLE_NAME, "ID=" + id, null);
+		if(db.delete(TABLE_NAME, "ID=" + id, null) >= 0)
+			Log.d("TAG", "Borrado OK");
+		else
+			Log.d("TAG", "Error en el Borrado");
 	}
 }

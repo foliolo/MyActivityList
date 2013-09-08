@@ -149,10 +149,11 @@ public class MyListView extends ListActivity{
 			case R.id.delete:
 				//Borramos el item seleccionado
 				travels.remove(info.position);
-				adapter.notifyDataSetChanged();
 				
 				//Actualización de la base de datos
-				dbHelper.remove(dbHelper.getWritableDatabase(), posicion);
+				dbHelper.remove(dbHelper.getWritableDatabase(), posicion+1);
+				
+				adapter.notifyDataSetChanged();
 				break;
 				
 			case R.id.correo:
@@ -169,7 +170,7 @@ public class MyListView extends ListActivity{
 						+ "Anotación: " + travels.get(posicion).getAnotacion();
 				
 				intent.putExtra(Intent.EXTRA_TEXT, textSend);
-				startActivity(Intent.createChooser(intent, getResources().getString(R.string.menu_item_send_choose)));
+				startActivity(Intent.createChooser(intent, getResources().getString(R.string.menu_item_send)));
 				break;
 		}
 		
