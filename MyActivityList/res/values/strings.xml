@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Mis Actividades</string>
+    
+    <!-- Textos Primera Interfaz -->
+    <string name="app_primera_interfaz">Primera Interfaz</string>
+    <string name="hint_texto">Introduce el mensaje&#8230;</string>
+    <string name="texto_boton">Enviar</string>
+    <string name="destinatario">Destinatario</string>
+    <string name="travel_info">Información de viajes</string>
+    
+    <!-- Textos Listas y Adapters -->
+    <string name="app_list_activity">Listas y Adapters</string>
+
+    <!-- Textos ListView -->
+    <string name="app_listView">List View</string>
+    <string name="app_name_editar_viaje">Editar nuevo viaje</string>
+   	<string name="txt_ciudad">Introducir ciudad:</string>
+    <string name="txt_pais">Introducir país:</string>
+    <string name="txt_anyo">Introducir año:</string>
+    <string name="txt_anotacion">Introducir anotación:</string>
+    <string name="txt_boton">Guardar</string>
+    
+    <string name="ciudad">ciudad</string>
+    <string name="pais">país</string>
+    <string name="anyo">año</string>
+    <string name="anotacion">anotación</string>
+    
+    
+    <!-- Texto del menu -->
+    <string name="action_settings">Configuración</string>
+    <string name="nuevo_viaje">Nuevo viaje</string>
+    
+    <!-- Texto Receiver -->
+    <string name="app_name_receiver">Receiver</string>
+    
+    <!-- Texto Sticky -->
+    <string name="app_name_sticky">Sticky Intent</string>
+    
+    <!-- Texto Sticky -->
+    <string name="app_name_pending_intent">Pending Intent</string>
+    <string name="botontextpending">¡¡NO PULSAR!!</string>
+    <string name="textpending">Una vez pulsado el botón, espera 5 segundos para que se ejecute el intent que abrirá la pagina de google</string>
+    
+    <!-- Texto Telephony Manager -->
+    <string name="app_name_telephony">Telephony Manager</string>
+    
+</resources>

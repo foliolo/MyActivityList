@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="al.uax.myactivitylist"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="12"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name=".MyListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity 
+            android:name=".ListasAdapters"
+            android:label="@string/app_list_activity">
+        </activity>
+        <activity 
+            android:name=".PrimeraInterfaz"
+            android:label="@string/app_primera_interfaz">
+        </activity>
+        <activity 
+            android:name="al.uax.listview.MyListView"
+            android:label="@string/app_listView">
+        </activity>
+        <activity 
+            android:name="al.uax.listview.EditTravelActivity"
+            android:label="@string/app_name_editar_viaje">
+        </activity>
+        <activity
+            android:name="al.uax.myactivitylist.Receiver"
+            android:label="@string/app_name_receiver">
+            <!-- 
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+             -->
+        </activity>
+        <activity
+            android:name="al.uax.myactivitylist.StickyIntent"
+            android:label="@string/app_name_sticky">
+        </activity>
+        <activity
+            android:name="al.uax.myactivitylist.MiPendingIntent"
+            android:label="@string/app_name_pending_intent">
+        </activity>
+        <activity
+            android:name="al.uax.myactivitylist.Telephony"
+            android:label="@string/app_name_telephony">
+        </activity>
+    </application>
+
+</manifest>

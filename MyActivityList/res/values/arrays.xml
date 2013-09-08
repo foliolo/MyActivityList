@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="actividades">
+        <item> Primera interfaz</item>
+        <item> Listas y adapters</item>
+        <item> ListView</item>
+        <item> Broadcast Receiver</item>
+        <item> Sticky Intent</item>
+        <item> Pending Intent + AlarmManager</item>
+        <item> TelephonyManager</item>
+    </string-array>
+    
+	<string-array name="dias">
+	    <item >Lunes</item>
+	    <item >Martes</item>
+	    <item >Miércoles</item>
+	    <item >Jueves</item>
+	    <item >Viernes</item>
+	    <item >Sábado</item>
+	    <item >Domingo</item>
+	</string-array>
+</resources>
