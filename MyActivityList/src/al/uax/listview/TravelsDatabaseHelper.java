@@ -93,4 +93,9 @@ public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 		c.close();
 		return travels;
 	}
+	
+	
+	public void remove(SQLiteDatabase db, int id) {
+		db.delete(TABLE_NAME, "ID=" + id, null);
+	}
 }

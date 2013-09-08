@@ -1,5 +1,6 @@
 package al.uax.listview;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import al.uax.myactivitylist.R;
@@ -9,13 +10,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +29,7 @@ import android.widget.Toast;
 public class MyListView extends ListActivity{
 	private ArrayList<TravelInfo> travels = new ArrayList<TravelInfo>();
 	private ArrayAdapter<TravelInfo> adapter;
-//	private ListView list;
+	private ListView list;
 	protected static final int REQUEST_MODIF = 10;
 	protected static final int REQUEST_ADD = 11;
 	private static TravelsDatabaseHelper dbHelper;
@@ -45,11 +51,28 @@ public class MyListView extends ListActivity{
 		dbHelper = new TravelsDatabaseHelper(this);
 		travels = dbHelper.getTravelsList();
 		
+		list = (ListView) findViewById(android.R.id.list);
+		
 		//Creamos el adapter y lo asociamos a la actividad
 		adapter = new TravelAdapter(this, travels);
 		setListAdapter(adapter);
-//		list = (ListView) findViewById(android.R.id.list);
-//		list.setAdapter(adapter);
+		
+		list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if(view != null){
+					TravelInfo travel = travels.get(position);
+					
+					String mensaje = "Visita: " + travel.getCity() + "(" + travel.getCountry() + "), año: " + travel.getYear() + 
+							"\nAnotación: " + travel.getAnotacion();
+					
+					Toast.makeText(MyListView.this, mensaje, Toast.LENGTH_LONG).show();
+				}
+			}
+		});
+		
+		//Registramos el menú que saldrá al pulsar sobre los item		
+		registerForContextMenu(list);
 	}
 	
 	@Override
@@ -62,7 +85,12 @@ public class MyListView extends ListActivity{
 	protected void onResume() {
 		super.onResume();
 	}
-
+	
+	
+	
+	
+	
+/*
 	//Método que detecta cuando se pulsa un item de la lista.
 	protected void onListItemClick(android.widget.ListView l, View v, int position, long id){
 //		TravelInfo info = adapter.getItem(position);
@@ -78,12 +106,74 @@ public class MyListView extends ListActivity{
 		
 		super.onListItemClick(l, v, position, id);
 	}
+*/
+
+	
+	
+	
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.list_view, menu);
 		return true;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.menu_item, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		Intent intent;
+		
+		posicion = info.position;
+		
+		switch(item.getItemId()){
+			case R.id.modif:
+				//Creamos el intent que modificara el item seleccionado
+				intent = new Intent(this, EditTravelActivity.class);
+				
+				Bundle data = new Bundle();
+				data.putInt("posicion", posicion);
+				data.putSerializable("modif_viaje", (Serializable) travels.get(posicion));
+				intent.putExtras(data);
+				
+				startActivityForResult(intent, REQUEST_MODIF);
+				break;
+			
+			case R.id.delete:
+				//Borramos el item seleccionado
+				travels.remove(info.position);
+				adapter.notifyDataSetChanged();
+				
+				//Actualización de la base de datos
+				dbHelper.remove(dbHelper.getWritableDatabase(), posicion);
+				break;
+				
+			case R.id.correo:
+				//Creamos el intent que mandará la información al correo.
+				intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				
+				//Creamos el texto a mandar
+				posicion = info.position;
+				String textSend = "Viaje realizado:\n"
+						+ "Ciudad: " + travels.get(posicion).getCity() + "\n"
+						+ "País: " + travels.get(posicion).getCountry() + "\n"
+						+ "Año" + travels.get(posicion).getYear() + "\n"
+						+ "Anotación: " + travels.get(posicion).getAnotacion();
+				
+				intent.putExtra(Intent.EXTRA_TEXT, textSend);
+				startActivity(Intent.createChooser(intent, getResources().getString(R.string.menu_item_send_choose)));
+				break;
+		}
+		
+		return super.onContextItemSelected(item);
 	}
 	
 	public boolean onMenuItemSelected(int featureId, MenuItem item){
@@ -106,57 +196,49 @@ public class MyListView extends ListActivity{
 				else
 					Log.d("TAG", "No hay ninguna Activity capaz de reolver el Intent");
 				break;
-/*				
-			case R.id.compartir:
-				intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("image/*");
-				Intent chooserIntent = Intent.createChooser(intent,null);
-				
-				if(pm.resolveActivity(chooserIntent,0) != null)
-					startActivityForResult(chooserIntent, REQUEST_ADD);
-*/				
-//				intent = new Intent();
-//				intent.setAction(android.content.Intent.ACTION_SEND);
-//				intent.setType("text/plain");
-				
-//				if(pm.resolveActivity(intent, 0) != null)
-//					startActivity(Intent.createChooser(intent, "Elegir método"));
-//				else
-//					Log.d("TAG", "No hay ninguna Activity capaz de resolver el Intent");
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		//Obtenemos los datos de la subactivity
-		if(data != null){
-			travels.clear();
-			travels.addAll((ArrayList<TravelInfo>) data.getSerializableExtra("lista_viajes"));
-		}
-		
+		Bundle extras;
 		if (resultCode == RESULT_OK) {
 			switch(requestCode){
 				case REQUEST_MODIF:
-					//Actualización de la base de datos
-					dbHelper.updateTravel(dbHelper.getWritableDatabase(), 
-							travels.get(posicion).getCity(),
-							travels.get(posicion).getCountry(),
-							travels.get(posicion).getYear(), 
-							travels.get(posicion).getAnotacion(),
+					extras = data.getExtras();
+					if(extras != null){
+						travels.remove(posicion);
+						TravelInfo viaje = (TravelInfo) extras.getSerializable("modif_viaje");
+						travels.add(posicion, viaje);
+					
+						//Actualización de la base de datos
+						dbHelper.updateTravel(dbHelper.getWritableDatabase(), 
+							viaje.getCity(),
+							viaje.getCountry(),
+							viaje.getYear(),
+							viaje.getAnotacion(),
 							posicion+1);
+					}
+					
+					adapter.notifyDataSetChanged();
 		    	  	break;
 		    	  	
 				case REQUEST_ADD:
-					dbHelper.insertTravel(dbHelper.getWritableDatabase(), 
+					extras = data.getExtras();
+					if(extras != null){
+						travels.add((TravelInfo) extras.getSerializable("nuevo_viaje"));
+						
+						dbHelper.insertTravel(dbHelper.getWritableDatabase(), 
 							travels.get(travels.size()-1).getCity(),
 							travels.get(travels.size()-1).getCountry(),
 							travels.get(travels.size()-1).getYear(), 
 							travels.get(travels.size()-1).getAnotacion());
+					}
 					
+					adapter.notifyDataSetChanged();
 		    	  	break;
 		    	  	
 				default:

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/modif"
+        android:showAsAction="never"
+        android:title="@string/menu_item_modif"/>
+    
+    <item
+        android:id="@+id/delete"
+        android:showAsAction="never"
+        android:title="@string/menu_item_delete"/>
+
+    <item
+        android:id="@+id/correo"
+        android:title="@string/menu_item_send" />
+</menu>

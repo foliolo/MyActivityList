@@ -1,6 +1,6 @@
 package al.uax.listview;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 import al.uax.myactivitylist.R;
 import android.app.Activity;
@@ -13,14 +13,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class EditTravelActivity extends Activity {
-	private ArrayList<TravelInfo> travels;
+//	private ArrayList<TravelInfo> travels;
 	private TextView ciudad;
 	private TextView pais;
 	private TextView anyo;
 	private TextView anotacion;
-	private int item = -1; //Posición del item
+	private int posicion = -1; //Posición del item
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,49 +31,49 @@ public class EditTravelActivity extends Activity {
 		anyo = (TextView) findViewById(R.id.anyo);
 		anotacion = (TextView) findViewById(R.id.anotacion);
 		
-		//Obtenemos los datos de la actividad principal
-		Bundle datos = getIntent().getExtras();
-		if(datos != null){
-			item = datos.getInt("posicion");
-			travels = (ArrayList<TravelInfo>) datos.getSerializable("lista_viajes");
-			
-			//Mostramos los datos a modificar
-			if(item >= 0){
-				ciudad.setText(travels.get(item).getCity());
-				pais.setText(travels.get(item).getCountry());
-				anyo.setText("" + travels.get(item).getYear());
-				anotacion.setText(travels.get(item).getAnotacion());
-			}
+		//Rellenamos los elementos con los datos que nos manda la actividad principal. (Siempre que no sea un elemento nuevo)		
+		Bundle extras = getIntent().getExtras();
+		posicion = extras.getInt("posicion", -1);
+		
+		if (extras != null && posicion != -1)
+		{
+	    	ciudad.setText( ((TravelInfo) extras.getSerializable("modif_viaje") ).getCity());
+	    	pais.setText( ((TravelInfo) extras.getSerializable("modif_viaje") ).getCountry());
+	    	anyo.setText("" + ((TravelInfo) extras.getSerializable("modif_viaje") ).getYear());
+	    	anotacion.setText( ((TravelInfo) extras.getSerializable("modif_viaje") ).getAnotacion());
 		}
 		
+		//Realizamos la funcionalidad del botón. Se devuelven los datos actualizados a la activity principal.
 		Button boton = (Button) findViewById(R.id.boton);
 		boton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//Modificamos la lista con la nueva información
-				if(item >= 0){
-					travels.get(item).setCity(ciudad.getText().toString());
-					travels.get(item).setCountry(pais.getText().toString());
-					travels.get(item).setYear(Integer.parseInt(anyo.getText().toString()));
-					travels.get(item).setAnotacion(anotacion.getText().toString());
-				}
-				//Añadimos el nuevo elemento
-				else{
-					travels.add(new TravelInfo(
-							ciudad.getText().toString(), 
+				if(posicion != -1){
+					int fecha = anyo.getText().toString().equals("") ? 0 : Integer.parseInt(anyo.getText().toString());
+					
+					Bundle data = new Bundle();
+					data.putSerializable("modif_viaje", (Serializable) new TravelInfo(ciudad.getText().toString(), 
 							pais.getText().toString(), 
-							Integer.parseInt(anyo.getText().toString()), 
-							anotacion.getText().toString())
-					);
+							fecha, 
+							anotacion.getText().toString()));
+					getIntent().putExtras(data);
+					
+					setResult(RESULT_OK, getIntent());
+					finish();
 				}
-				
-				//Empaquetamos el nuevo vector y lo mandamos a la actividad principal
-				Bundle data = new Bundle();
-				data.putSerializable("lista_viajes", travels);
-				getIntent().putExtras(data);
-		    	
-				setResult(RESULT_OK, getIntent());
-		    	finish();
+				else{
+					//Creamos el Intent que devolverá el nuevo objeto a añadir(controlando que la fecha no sea vacío)
+					int fecha = anyo.getText().toString().equals("") ? 0 : Integer.parseInt(anyo.getText().toString());
+					
+					getIntent().putExtra("nuevo_viaje", (Serializable) new TravelInfo(ciudad.getText().toString(), 
+							pais.getText().toString(), 
+							fecha, 
+							anotacion.getText().toString()));
+					
+					setResult(RESULT_OK, getIntent());
+					finish();
+				}
 			}
 		});
 	}

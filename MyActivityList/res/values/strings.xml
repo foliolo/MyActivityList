@@ -27,11 +27,16 @@
     <string name="anyo">año</string>
     <string name="anotacion">anotación</string>
     
-    
     <!-- Texto del menu -->
     <string name="action_settings">Configuración</string>
     <string name="nuevo_viaje">Nuevo viaje</string>
     
+    <!-- Texto del submenu -->
+    <string name="menu_item_modif">Modificar</string>
+    <string name="menu_item_delete">Borrar</string>
+    <string name="menu_item_send">Env</string>
+    <string name="menu_item_send_choose">Compartir con</string>
+
     <!-- Texto Receiver -->
     <string name="app_name_receiver">Receiver</string>
     
