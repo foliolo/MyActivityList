@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     
@@ -46,6 +46,10 @@
             android:name="al.uax.listview.EditTravelActivity"
             android:label="@string/app_name_editar_viaje">
         </activity>
+        <activity 
+            android:name="al.uax.listview.EditTravelActivityProvider"
+            android:label="@string/app_name_editar_viaje">
+        </activity>
         <activity
             android:name="al.uax.myactivitylist.Receiver"
             android:label="@string/app_name_receiver">
@@ -67,6 +71,7 @@
             android:name="al.uax.myactivitylist.Telephony"
             android:label="@string/app_name_telephony">
         </activity>
+        
         <provider 
             android:name="al.uax.listview.TravelProvider"
             android:authorities="al.uax.listview" >

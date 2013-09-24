@@ -30,8 +30,19 @@ public class TravelProvider extends ContentProvider {
 	}
 	
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
-		return 0;
+	public int delete(Uri uri, String where, String[] whereArgs) {
+		//Abrimos la base de datos para la eliminación
+		mDbHelper = new TravelsDatabaseHelper(getContext());
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		
+		int result = db.delete(TravelsDatabaseHelper.TABLE_NAME, where, whereArgs);
+		
+		//Notificamos el cambio
+		getContext().getContentResolver().notifyChange(uri, null);
+		
+		//Cerramos la base de datos
+		mDbHelper.close();
+		return result;
 	}
 
 	@Override
@@ -62,9 +73,13 @@ public class TravelProvider extends ContentProvider {
 		
 		if(id >= 0){
 			result = ContentUris.withAppendedId(CONTENT_URI, id);
+			//Notificamos el cambio
 			getContext().getContentResolver().notifyChange(uri, null);
 		}
-
+		
+		//Cerramos la base de datos
+		mDbHelper.close();
+		
 		return result;
 	}
 
@@ -104,9 +119,25 @@ public class TravelProvider extends ContentProvider {
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		return 0;
+	public int update(Uri uri, ContentValues values, String where, String[] selectionArgs) {
+		int result = 0;
+		
+		//Abrimos la base de datos para su actualización
+		mDbHelper = new TravelsDatabaseHelper(getContext());
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+	
+		//Actualizamos la tabla
+		result = db.update(TravelsDatabaseHelper.TABLE_NAME, values, where, selectionArgs);
+		
+		//Notificamos el cambio
+		getContext().getContentResolver().notifyChange(uri, null);
+		
+		//Cerramos la base de datos
+		mDbHelper.close();
+		
+		return result;
 	}
+	
 	
 	public class Travels implements BaseColumns{
 		public static final String _ID = "_id";

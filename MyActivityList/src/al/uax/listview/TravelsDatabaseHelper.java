@@ -60,6 +60,7 @@ public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 		
 		db.update(TABLE_NAME, values, Travels._ID +"="+ id, null);
 	}
+	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if(oldVersion < newVersion){
