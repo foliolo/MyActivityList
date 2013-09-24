@@ -32,9 +32,15 @@
             android:name=".PrimeraInterfaz"
             android:label="@string/app_primera_interfaz">
         </activity>
+<!-- 
         <activity 
             android:name="al.uax.listview.MyListView"
             android:label="@string/app_listView">
+        </activity>
+-->
+		<activity 
+            android:name="al.uax.listview.MyListViewProvider"
+            android:label="@string/app_listViewProvider">
         </activity>
         <activity 
             android:name="al.uax.listview.EditTravelActivity"
@@ -61,6 +67,10 @@
             android:name="al.uax.myactivitylist.Telephony"
             android:label="@string/app_name_telephony">
         </activity>
+        <provider 
+            android:name="al.uax.listview.TravelProvider"
+            android:authorities="al.uax.listview" >
+        </provider>
     </application>
 
 </manifest>

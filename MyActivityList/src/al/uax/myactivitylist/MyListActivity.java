@@ -60,7 +60,8 @@ public class MyListActivity extends Activity {
 		            	break;
 		            	
 		            case 2:
-            			intent = new Intent(MyListActivity.this, al.uax.listview.MyListView.class);
+            			//intent = new Intent(MyListActivity.this, al.uax.listview.MyListView.class);
+		            	intent = new Intent(MyListActivity.this, al.uax.listview.MyListViewProvider.class);
 		            	
 		            	pm = getPackageManager();
 		            	if(pm != null)

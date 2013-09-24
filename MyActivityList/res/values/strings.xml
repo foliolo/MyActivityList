@@ -15,6 +15,7 @@
 
     <!-- Textos ListView -->
     <string name="app_listView">List View</string>
+    <string name="app_listViewProvider">List View Provider</string>
     <string name="app_name_editar_viaje">Editar nuevo viaje</string>
    	<string name="txt_ciudad">Introducir ciudad:</string>
     <string name="txt_pais">Introducir país:</string>

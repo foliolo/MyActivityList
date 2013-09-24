@@ -3,7 +3,8 @@
     <string-array name="actividades">
         <item> Primera interfaz</item>
         <item> Listas y adapters</item>
-        <item> ListView</item>
+<!--    <item> ListView</item> 	-->
+        <item> ListView Provider</item>
         <item> Broadcast Receiver</item>
         <item> Sticky Intent</item>
         <item> Pending Intent + AlarmManager</item>
