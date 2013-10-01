@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="al.uax.myactivitylist"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     
     <application
         android:allowBackup="true"
@@ -76,6 +78,12 @@
             android:name="al.uax.listview.TravelProvider"
             android:authorities="al.uax.listview" >
         </provider>
+        
+        <activity
+            android:name="al.uax.fragments.MyFragment"
+            android:label="@string/app_name_fragment">
+        </activity>
+        
     </application>
 
 </manifest>

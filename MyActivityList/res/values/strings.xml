@@ -51,4 +51,7 @@
     <!-- Texto Telephony Manager -->
     <string name="app_name_telephony">Telephony Manager</string>
     
+    <!-- Texto Fragment -->
+    <string name="app_name_fragment">Fragment</string>
+    
 </resources>

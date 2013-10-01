@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="actividades">
-        <item> Primera interfaz</item>
-        <item> Listas y adapters</item>
-<!--    <item> ListView</item> 	-->
-        <item> ListView Provider</item>
-        <item> Broadcast Receiver</item>
-        <item> Sticky Intent</item>
-        <item> Pending Intent + AlarmManager</item>
-        <item> TelephonyManager</item>
+        <item >Primera interfaz</item>
+        <item >Listas y adapters</item>
+<!--    <item >ListView</item> 	-->
+        <item >ListView Provider</item>
+        <item >Broadcast Receiver</item>
+        <item >Sticky Intent</item>
+        <item >Pending Intent + AlarmManager</item>
+        <item >TelephonyManager</item>
+        <item >Fragment</item>
     </string-array>
     
 	<string-array name="dias">
@@ -19,5 +20,11 @@
 	    <item >Viernes</item>
 	    <item >Sábado</item>
 	    <item >Domingo</item>
+	</string-array>
+	
+	<string-array name="webs">
+        <item>http://www.google.es</item>
+        <item>http://www.youtube.com</item>
+        <item>http://www.marca.com</item>
 	</string-array>
 </resources>

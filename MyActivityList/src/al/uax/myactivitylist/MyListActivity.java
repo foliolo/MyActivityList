@@ -109,6 +109,16 @@ public class MyListActivity extends Activity {
 		            	else
 		            		Log.d("TAG", "No hay ningun Activity para el intent");
 		            	break;
+		            	
+		            case 7:
+		            	intent = new Intent(MyListActivity.this, al.uax.fragments.MyFragment.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
 				}
 			}
 		});
