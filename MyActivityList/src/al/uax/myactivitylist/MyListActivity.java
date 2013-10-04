@@ -119,6 +119,16 @@ public class MyListActivity extends Activity {
 		            	else
 		            		Log.d("TAG", "No hay ningun Activity para el intent");
 		            	break;
+		            	
+		            case 8:
+		            	intent = new Intent(MyListActivity.this, al.uax.myactivitylist.MyAlertDialog.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
 				}
 			}
 		});
@@ -127,7 +137,7 @@ public class MyListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.my_list, menu);
+//		getMenuInflater().inflate(R.menu.my_list, menu);
 		return true;
 	}
 }

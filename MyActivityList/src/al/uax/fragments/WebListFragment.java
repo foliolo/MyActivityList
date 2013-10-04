@@ -15,7 +15,7 @@ public class WebListFragment extends ListFragment{
 	boolean singleColumn;
 	ArrayAdapter<CharSequence> mAdapter;
 	
-	public void onActivityCreated(Bundle savedInstanceState){
+	public void onActivityCrated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		
 		View webFragment = getActivity().findViewById(R.id.web_fragment);

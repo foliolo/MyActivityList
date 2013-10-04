@@ -2,17 +2,19 @@ package al.uax.listview;
 
 import al.uax.listview.TravelProvider.Travels;
 import al.uax.myactivitylist.R;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditTravelActivityProvider extends Activity {
 //	private ArrayList<TravelInfo> travels;
@@ -52,7 +54,7 @@ public class EditTravelActivityProvider extends Activity {
 	    	anyo.setText( c.getString(c.getColumnIndex(Travels.YEAR)));
 	    	anotacion.setText( c.getString(c.getColumnIndex(Travels.NOTE)));
 		}
-		
+/*		
 		//Realizamos la funcionalidad del botón. Se devuelven los datos actualizados a la activity principal.
 		Button boton = (Button) findViewById(R.id.boton);
 		boton.setOnClickListener(new OnClickListener() {
@@ -87,15 +89,74 @@ public class EditTravelActivityProvider extends Activity {
 				finish();
 			}
 		});
+*/		
+		//ActionBar
+		ActionBar bar = getActionBar();
+		bar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.travel, menu);
-		return true;
+		getMenuInflater().inflate(R.menu.my_list, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
+		PackageManager pm = getPackageManager();
+		
+		switch(item.getItemId()){	
+
+		case android.R.id.home:
+			intent = new Intent(this, MyListViewProvider.class);
+			if(pm.resolveActivity(intent, 0) != null){
+				startActivity(intent);
+				finish();
+			}
+			else
+				Log.d("TAG", "No hay ninguna Activity capaz de reolver el Intent");
+			break;
+			
+		case R.id.action_settings:
+			Toast.makeText(EditTravelActivityProvider.this, "Configuración", Toast.LENGTH_SHORT).show();
+			break;
+			
+		case R.id.guardar:
+			//Obtención de los datos del formulario
+			ContentValues values = new ContentValues();
+			values.put(Travels.CITY, ciudad.getText().toString());
+			values.put(Travels.COUNTRY, pais.getText().toString());
+			values.put(Travels.YEAR, anyo.getText().toString());
+			values.put(Travels.NOTE, anotacion.getText().toString());
+			
+			//Modificamos la lista con la nueva información
+			if(posicion != -1){
+				//Actualización de la base de datos mediante el provider
+				String id = c.getString(c.getColumnIndex(Travels._ID));
+				String where = Travels._ID + "=" + id;
+
+				cr.update(TravelProvider.CONTENT_URI, values, where, null);
+				
+			}
+			else{
+				//Añadimos el nuevo elemento a la base de datos
+				cr.insert(TravelProvider.CONTENT_URI, values);
+			}
+			
+			//Llamada a la Actividad principal 
+			getIntent().setClass(EditTravelActivityProvider.this, MyListViewProvider.class);
+			startActivity(getIntent());
+			
+			//Finalización de la activity
+			finish();
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState){
 		Log.e("TAG", "Estado salvado");

@@ -71,12 +71,12 @@
         android:ems="10"
         android:inputType="text"    
         android:maxLength="75" />
-
+<!-- 
     <Button
         android:id="@+id/boton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/txt_boton" />
-
+ -->
 </LinearLayout>

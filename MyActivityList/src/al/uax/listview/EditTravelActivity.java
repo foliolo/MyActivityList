@@ -1,15 +1,10 @@
 package al.uax.listview;
 
-import java.io.Serializable;
-
 import al.uax.myactivitylist.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class EditTravelActivity extends Activity {
@@ -42,7 +37,7 @@ public class EditTravelActivity extends Activity {
 	    	anyo.setText("" + ((TravelInfo) extras.getSerializable("modif_viaje") ).getYear());
 	    	anotacion.setText( ((TravelInfo) extras.getSerializable("modif_viaje") ).getAnotacion());
 		}
-		
+/*		
 		//Realizamos la funcionalidad del botón. Se devuelven los datos actualizados a la activity principal.
 		Button boton = (Button) findViewById(R.id.boton);
 		boton.setOnClickListener(new OnClickListener() {
@@ -76,6 +71,7 @@ public class EditTravelActivity extends Activity {
 				}
 			}
 		});
+*/
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package al.uax.listview;
 
 import al.uax.listview.TravelProvider.Travels;
 import al.uax.myactivitylist.R;
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -74,6 +75,10 @@ public class MyListViewProvider extends ListActivity{
 		
 		//Registramos el menú que saldrá al pulsar sobre los item		
 		registerForContextMenu(list);
+		
+		//ActionBar
+		ActionBar bar = getActionBar();
+		bar.setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override
@@ -92,13 +97,13 @@ public class MyListViewProvider extends ListActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.list_view, menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
 		getMenuInflater().inflate(R.menu.menu_item, menu);
+		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 	
 	@Override
@@ -109,71 +114,93 @@ public class MyListViewProvider extends ListActivity{
 		posicion = info.position;
 		
 		switch(item.getItemId()){
-			case R.id.modif:
-				//Creamos el intent que modificara el item seleccionado
-				intent = new Intent(this, EditTravelActivityProvider.class);
-				
-				//Envío de la posición modificada
-				intent.putExtra("posicion", posicion);
-				startActivity(intent);
-			
-				break;
-			
-			case R.id.delete:
-				//Actualización de la base de datos
-				String where = "_id=" + ++posicion;
-				cr.delete(TravelProvider.CONTENT_URI, where, null);
-				
-				intent = new Intent(this, MyListViewProvider.class);
-				
-				//Envío de la posición modificada
-				intent.putExtra("posicion", posicion);
-				startActivity(intent);
-				finish();
-				break;
-/*				
-			case R.id.correo:
-				//Creamos el intent que mandará la información al correo.
-				intent = new Intent(Intent.ACTION_SEND);
-				intent.setType("text/plain");
-				
-				//Creamos el texto a mandar
-				posicion = info.position;
-				String textSend = "Viaje realizado:\n"
-						+ "Ciudad: " + travels.get(posicion).getCity() + "\n"
-						+ "País: " + travels.get(posicion).getCountry() + "\n"
-						+ "Año" + travels.get(posicion).getYear() + "\n"
-						+ "Anotación: " + travels.get(posicion).getAnotacion();
-				
-				intent.putExtra(Intent.EXTRA_TEXT, textSend);
-				startActivity(Intent.createChooser(intent, getResources().getString(R.string.menu_item_send)));
-				break;
-*/
-		}
 		
+		case R.id.modif:
+			//Creamos el intent que modificara el item seleccionado
+			intent = new Intent(this, EditTravelActivityProvider.class);
+			
+			//Envío de la posición modificada
+			intent.putExtra("posicion", posicion);
+			startActivity(intent);
+			finish();
+		
+			break;
+		
+		case R.id.delete:
+			//Actualización de la base de datos
+			c.moveToPosition(posicion);
+			
+			String id = c.getString(c.getColumnIndex(Travels._ID));
+			String where = "_id=" + id;
+			cr.delete(TravelProvider.CONTENT_URI, where, null);
+			
+			intent = new Intent(this, MyListViewProvider.class);
+			
+			//Envío de la posición modificada
+			intent.putExtra("posicion", posicion);
+			startActivity(intent);
+//			finish();
+			break;
+				
+		case R.id.correo:
+			//Creamos el intent que mandará la información al correo.
+			intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("text/plain");
+			
+			//Creamos el texto a mandar
+			posicion = info.position;
+			String city = c.getString(c.getColumnIndex(Travels.CITY));
+			String country = c.getString(c.getColumnIndex(Travels.COUNTRY));
+			String year = c.getString(c.getColumnIndex(Travels.YEAR));
+			String note = c.getString(c.getColumnIndex(Travels.NOTE));
+			
+			String mensaje = "Visita: " + city + "(" + country + "), año: " + year + "\nAnotación: " + note;
+			
+			
+			intent.putExtra(Intent.EXTRA_TEXT, mensaje);
+			startActivity(Intent.createChooser(intent, getResources().getString(R.string.menu_item_send)));
+			break;
+
+		}
 		return super.onContextItemSelected(item);
+		
 	}
-	
-	public boolean onMenuItemSelected(int featureId, MenuItem item){
+/*
+//	Menu normal
+//	public boolean onMenuItemSelected(int featureId, MenuItem item){
+//		return super.onMenuItemSelected(featureId, item);
+//  }
+*/
+	public boolean onOptionsItemSelected(MenuItem item){
 		Intent intent;
 		PackageManager pm = getPackageManager();
+		
 		switch(item.getItemId()){	
-			case R.id.action_settings:
-				Toast.makeText(MyListViewProvider.this, "Configuración", Toast.LENGTH_SHORT).show();
-				break;
-				
-			case R.id.nuevo_viaje:
-				intent = new Intent(this, EditTravelActivityProvider.class);
-				if(pm.resolveActivity(intent, 0) != null){
-					intent.putExtra("posicion", -1);
-					startActivity(intent);
-				}
-				else
-					Log.d("TAG", "No hay ninguna Activity capaz de reolver el Intent");
-				break;
+
+		case android.R.id.home:
+			Toast.makeText(MyListViewProvider.this, "Activity principal", Toast.LENGTH_SHORT).show();
+			break;
+			
+		case R.id.action_settings:
+			Toast.makeText(MyListViewProvider.this, "Configuración", Toast.LENGTH_SHORT).show();
+			break;
+			
+		case R.id.nuevo_viaje:
+			intent = new Intent(this, EditTravelActivityProvider.class);
+			if(pm.resolveActivity(intent, 0) != null){
+				intent.putExtra("posicion", -1);
+				startActivity(intent);
+				finish();
+			}
+			else
+				Log.d("TAG", "No hay ninguna Activity capaz de reolver el Intent");
+			break;
 		}
-		return super.onMenuItemSelected(featureId, item);
+		
+		return super.onOptionsItemSelected(item);
 	}
+	
+	
 	
 /*	
 	@Override

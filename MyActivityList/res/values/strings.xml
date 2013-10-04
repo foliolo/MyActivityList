@@ -54,4 +54,15 @@
     <!-- Texto Fragment -->
     <string name="app_name_fragment">Fragment</string>
     
+    <!-- Texto Fragment -->
+    <string name="app_name_alert_dialog">Alert Dialog</string>
+    <string name="text_alert_dialog">Pulsar el botón para mostar el Alert Dialog</string>
+    <string name="boton_alert_dialog1">Diálogo Simple</string>
+    <string name="boton_alert_dialog2">Diálogo Personlizado</string>
+    <string name="dscrImagen">Descripción de imagen</string>
+    <string name="dialog_titulo">Selecciona el color del fondo</string>
+    <string name="dialog_rb_red">Rojo</string>
+    <string name="dialog_rb_green">Verde</string>
+    <string name="dialog_rb_blue">Azul</string>
+    
 </resources>
