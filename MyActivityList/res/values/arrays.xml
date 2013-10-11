@@ -11,6 +11,8 @@
         <item >TelephonyManager</item>
         <item >Fragment</item>
         <item >Alert Dialog</item>
+        <item >Operaciones Aritmeticas (Servicio)</item>
+        <item >XML Weather</item>
     </string-array>
     
 	<string-array name="dias">

@@ -11,6 +11,7 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     
     <application
         android:allowBackup="true"
@@ -82,6 +83,27 @@
         <activity
             android:name="al.uax.fragments.MyFragment"
             android:label="@string/app_name_fragment">
+        </activity>
+        
+        <activity
+            android:name="al.uax.myactivitylist.MyAlertDialog"
+            android:label="@string/app_name_alert_dialog">
+        </activity>
+        
+        <activity 
+            android:name="al.uax.servicios.OperacionesAritmeticas"
+            android:label="@string/app_name_operaciones_aritmeticas">
+        </activity>
+        <service 
+            android:name="al.uax.servicios.ServicioAritmeticOps">
+        </service>
+        <service 
+            android:name="al.uax.servicios.ServicioEnlazadoAritmeticOps">
+        </service>
+        
+        <activity 
+            android:name="al.uax.xml.XmlWeather"
+            android:label="@string/app_name_xml_weather">
         </activity>
         
     </application>

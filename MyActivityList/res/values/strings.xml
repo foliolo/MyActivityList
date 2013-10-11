@@ -54,7 +54,7 @@
     <!-- Texto Fragment -->
     <string name="app_name_fragment">Fragment</string>
     
-    <!-- Texto Fragment -->
+    <!-- Texto Dialog -->
     <string name="app_name_alert_dialog">Alert Dialog</string>
     <string name="text_alert_dialog">Pulsar el botón para mostar el Alert Dialog</string>
     <string name="boton_alert_dialog1">Diálogo Simple</string>
@@ -64,5 +64,25 @@
     <string name="dialog_rb_red">Rojo</string>
     <string name="dialog_rb_green">Verde</string>
     <string name="dialog_rb_blue">Azul</string>
+    
+    
+    <!-- Texto Service -->
+    <string name="app_name_operaciones_aritmeticas">Operaciones Aritmeticas (Servicio)</string>
+    <string name="labelValue1">Valor 1:</string>
+    <string name="labelValue2">Valor 2:</string>
+    <string name="labelOperacion">Operación:</string>
+    <string name="suma">+</string>
+    <string name="resta">-</string>
+    <string name="multiplicacion">*</string>
+    <string name="division">/</string>
+    <string name="labelSolucion">Solución:</string>
+    <string name="labelFactorial">Factorial:</string>
+    <string name="txtObtenerFactorial">Obtener</string>
+    
+    <!-- Texto XML Weather-->
+    <string name="app_name_xml_weather">XML Weather</string>
+    <string name="label_intro">Información del tiempo XML:</string>
+    <string name="label_xml">Texto parseado</string>
+    <string name="image_weather">Imagen del tiempo</string>
     
 </resources>

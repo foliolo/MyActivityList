@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/lable_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        android:text="@string/label_intro"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imagen_tiempo"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_below="@+id/lable_intro"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/image_weather" />
+
+    <TextView
+        android:id="@+id/label_xml"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lable_intro"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/imagen_tiempo"
+        android:layout_margin="5dp"
+        android:editable="false"
+        android:inputType="text|textMultiLine"
+        android:singleLine="false"
+        android:text="@string/label_xml"
+        tools:ignore="Deprecated" 
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

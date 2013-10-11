@@ -129,6 +129,26 @@ public class MyListActivity extends Activity {
 		            	else
 		            		Log.d("TAG", "No hay ningun Activity para el intent");
 		            	break;
+		            	
+		            case 9:
+		            	intent = new Intent(MyListActivity.this, al.uax.servicios.OperacionesAritmeticas.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
+
+		            case 10:
+		            	intent = new Intent(MyListActivity.this, al.uax.xml.XmlWeather.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
 				}
 			}
 		});
