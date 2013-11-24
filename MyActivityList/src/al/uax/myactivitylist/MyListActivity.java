@@ -149,6 +149,46 @@ public class MyListActivity extends Activity {
 		            	else
 		            		Log.d("TAG", "No hay ningun Activity para el intent");
 		            	break;
+		            	
+		            case 11:
+		            	intent = new Intent(MyListActivity.this, al.uax.telefonia.TelephonyManagerExample.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
+		            	
+		            case 12:
+		            	intent = new Intent(MyListActivity.this, al.uax.sms.SmsActivity.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
+		            	
+		            case 13:
+		            	intent = new Intent(MyListActivity.this, al.uax.localizacion.LocationActivity.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
+		            	
+		            case 14:
+		            	intent = new Intent(MyListActivity.this, al.uax.localizacion.AlertaProximidad.class);
+		            	
+		            	pm = getPackageManager();
+		            	if(pm != null)
+		            		startActivity(intent);
+		            	else
+		            		Log.d("TAG", "No hay ningun Activity para el intent");
+		            	break;
 				}
 			}
 		});

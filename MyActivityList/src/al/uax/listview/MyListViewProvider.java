@@ -193,7 +193,7 @@ public class MyListViewProvider extends ListActivity{
 				finish();
 			}
 			else
-				Log.d("TAG", "No hay ninguna Activity capaz de reolver el Intent");
+				Log.d("TAG", "No hay ninguna Activity capaz de resolver el Intent");
 			break;
 		}
 		

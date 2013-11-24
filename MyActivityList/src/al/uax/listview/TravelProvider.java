@@ -32,10 +32,10 @@ public class TravelProvider extends ContentProvider {
 	@Override
 	public int delete(Uri uri, String where, String[] whereArgs) {
 		//Abrimos la base de datos para la eliminación
-		mDbHelper = new TravelsDatabaseHelper(getContext());
+		mDbHelper = new HorarioDatabaseHelper(getContext());
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		
-		int result = db.delete(TravelsDatabaseHelper.TABLE_NAME, where, whereArgs);
+		int result = db.delete(HorarioDatabaseHelper.TABLE_NAME, where, whereArgs);
 		
 		//Notificamos el cambio
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -64,10 +64,10 @@ public class TravelProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		mDbHelper = new TravelsDatabaseHelper(getContext());
+		mDbHelper = new HorarioDatabaseHelper(getContext());
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		
-		long id = db.insert(TravelsDatabaseHelper.TABLE_NAME, null, values);
+		long id = db.insert(HorarioDatabaseHelper.TABLE_NAME, null, values);
 		
 		Uri result = null; 
 		
@@ -91,13 +91,13 @@ public class TravelProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
-		mDbHelper = new TravelsDatabaseHelper(getContext());
+		mDbHelper = new HorarioDatabaseHelper(getContext());
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		
 		int match = mUriMatcher.match(uri);
 		
 		SQLiteQueryBuilder qBuilder = new SQLiteQueryBuilder();
-		qBuilder.setTables(TravelsDatabaseHelper.TABLE_NAME);
+		qBuilder.setTables(HorarioDatabaseHelper.TABLE_NAME);
 		
 		switch(match){
 			case URI_TRAVELS:
@@ -123,11 +123,11 @@ public class TravelProvider extends ContentProvider {
 		int result = 0;
 		
 		//Abrimos la base de datos para su actualización
-		mDbHelper = new TravelsDatabaseHelper(getContext());
+		mDbHelper = new HorarioDatabaseHelper(getContext());
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 	
 		//Actualizamos la tabla
-		result = db.update(TravelsDatabaseHelper.TABLE_NAME, values, where, selectionArgs);
+		result = db.update(HorarioDatabaseHelper.TABLE_NAME, values, where, selectionArgs);
 		
 		//Notificamos el cambio
 		getContext().getContentResolver().notifyChange(uri, null);

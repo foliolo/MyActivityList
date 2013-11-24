@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +20,8 @@ import android.widget.Toast;
 
 public class OperacionesAritmeticas extends Activity{
 	private static final String TAG = "OperationService";
+	public static final int SOL_OPERACION = 10;
+	public static final int SOL_FACTORIAL = 11;
 	
 	private EditText valor1;
 	private EditText valor2;
@@ -34,77 +35,54 @@ public class OperacionesAritmeticas extends Activity{
 	public static EditText solFactorial;
 
 	private Float val1, val2;
+	private static Float total;
+	
 	private ServicioEnlazadoAritmeticOps mService;
-	
-	
-	private static class OperationHandler extends Handler{
-		@Override
-		public void handleMessage(Message msg){
-			switch(msg.what){
-				case ServicioEnlazadoAritmeticOps.MSG_RESTA:
-					Float solucion = msg.getData().getFloat("solucion");
-					solOperacion.setText(solucion.toString());
-					break;
-					
-				default:
-					super.handleMessage(msg);
-			}
-		}
-	}
 	private OperationHandler mHandler;
-	private Messenger mOperationMessenger;
+//	private Messenger mOperationMessenger;
 	
 	/**
 	 * Conexión con el servicio.
 	 */
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 		
+		public void onServiceConnected(ComponentName name, IBinder binder) {
+			Log.d(TAG, "Service connected");
+			Toast.makeText(OperacionesAritmeticas.this, "Servicio conectado", Toast.LENGTH_SHORT).show();
+			
+			mService = ((OperationBinder) binder).getService();
+			mHandler = new OperationHandler();
+			mService.setMessenger(new Messenger(mHandler));
+		}
+
 		public void onServiceDisconnected(ComponentName name) {
 			Log.d(TAG, "Service disconnected");
 			Toast.makeText(OperacionesAritmeticas.this, "Servicio desconectado", Toast.LENGTH_SHORT).show();
 			mService = null;
 		}
-		
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			Log.d(TAG, "Service connected");
-			Toast.makeText(OperacionesAritmeticas.this, "Servicio conectado", Toast.LENGTH_SHORT).show();
-			OperationBinder binder = (OperationBinder) service;
-			mService = binder.getService();
-//
-			mHandler = new OperationHandler();
-//			mOperationMessenger = new Messenger(mHandler);
-//			mService.setMessenger(mOperationMessenger);
-			
-			
-			// This is called when the connection with the service has been
-	        // established, giving us the service object we can use to
-	        // interact with the service.  We are communicating with our
-	        // service through an IDL interface, so get a client-side
-	        // representation of that from the raw service object.
-	        mOperationMessenger = new Messenger(mHandler);
-
-	        // We want to monitor the service for as long as we are
-	        // connected to it.
-	        try {
-	            Message msg = Message.obtain(null, ServicioEnlazadoAritmeticOps.MSG_RESTA);
-	            msg.replyTo = mOperationMessenger;
-	            mOperationMessenger.send(msg);
-
-	            // Give it some value as an example.
-//	            msg = Message.obtain(null, ServicioEnlazadoAritmeticOps.MSG_RESTA, this.hashCode(), 0);
-//	            mOperationMessenger.send(msg);
-	        } catch (RemoteException e) {
-	            // In this case the service has crashed before we could even
-	            // do anything with it; we can count on soon being
-	            // disconnected (and then reconnected if it can be restarted)
-	            // so there is no need to do anything here.
-	        }
-
-	        // As part of the sample, tell the user what happened.
-//	        Toast.makeText(OperacionesAritmeticas.this, "Servicio conectado", Toast.LENGTH_SHORT).show();
-		}
 	};
 	
+	static class OperationHandler extends Handler{
+		@Override
+		public void handleMessage(Message msg){
+			Log.i(TAG, "IncomingHandler. SOLUCION");
+			
+			switch(msg.what){
+				case SOL_OPERACION:
+					total = (Float) msg.obj;
+					solOperacion.setText(total.toString());
+					break;
+				
+				case SOL_FACTORIAL:
+					total = (Float) msg.obj;
+					solFactorial.setText(total.toString());
+					break;
+
+				default:
+					super.handleMessage(msg);
+			}
+		}
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -122,10 +100,10 @@ public class OperacionesAritmeticas extends Activity{
 		solOperacion = (EditText) findViewById(R.id.solucion);
 		solFactorial = (EditText) findViewById(R.id.solucionFactorial);
 		
-
 		/**
 		 * Llamada a un servicio normal
 		 */
+
 		btnSuma.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -137,67 +115,47 @@ public class OperacionesAritmeticas extends Activity{
 				intent.putExtra("val2", val2);
 				startService(intent);
 			}
+
 		});
+		
+		
 		
 		btnResta.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				val1 = !valor1.getText().toString().equals("") ? Float.parseFloat(valor1.getText().toString()) : 0;
 				val2 = !valor2.getText().toString().equals("") ? Float.parseFloat(valor2.getText().toString()) : 0;
-
-				try {
-					Message msg = Message.obtain(null, ServicioEnlazadoAritmeticOps.MSG_RESTA);
-					Bundle bundle = new Bundle();
-					bundle.putFloat("val1", val1);
-					bundle.putFloat("val2", val2);
-					msg.setData(bundle);
-				
-					mOperationMessenger.send(msg);
-					
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-				
-				mService.setMessenger(mOperationMessenger);
-				Intent intent = new Intent(OperacionesAritmeticas.this, ServicioEnlazadoAritmeticOps.class);
-				startService(intent);
+				mService.calcOperation(val1, val2, 1);
 			}
 		});
 		
 		btnMult.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				val1 = !valor1.getText().toString().equals("") ? Float.parseFloat(valor1.getText().toString()) : 0;
+				val2 = !valor2.getText().toString().equals("") ? Float.parseFloat(valor2.getText().toString()) : 0;
+				mService.calcOperation(val1, val2, 2);
 			}
 		});
 		
 		btnDiv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				val1 = !valor1.getText().toString().equals("") ? Float.parseFloat(valor1.getText().toString()) : 0;
+				val2 = !valor2.getText().toString().equals("") ? Float.parseFloat(valor2.getText().toString()) : 0;
+				mService.calcOperation(val1, val2, 3);
 			}
 		});
 		
 		btnFactorial.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Float sol = calcularFactorial(Float.parseFloat(valorFactorial.getText().toString()));
-				solFactorial.setText(sol.toString());
+				val1 = !valorFactorial.getText().toString().equals("") ? Float.parseFloat(valorFactorial.getText().toString()) : 1;
+				mService.calcFactorial(val1);
 			}
 
 		});
-	}
-
-	private Float calcularFactorial(Float valor) {
-		if(valor < 2)
-			return (float) 1;
-		else {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return valor * calcularFactorial(--valor);
-		}
-	}
+	}	
 
 	@Override
 	protected void onStart() {
@@ -212,8 +170,15 @@ public class OperacionesAritmeticas extends Activity{
 	@Override
 	protected void onStop() {
 		super.onStop();
-
-		Log.d(TAG, "Unbinding service...");
+		Log.d(TAG, "(Stop) Unbinding service...");
+		Toast.makeText(OperacionesAritmeticas.this, "Unbindinding service", Toast.LENGTH_SHORT).show();
+		unbindService(mServiceConnection);
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		Log.d(TAG, "(Destroy) Unbinding service...");
 		Toast.makeText(OperacionesAritmeticas.this, "Unbindinding service", Toast.LENGTH_SHORT).show();
 		unbindService(mServiceConnection);
 	}

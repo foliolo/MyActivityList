@@ -3,7 +3,6 @@ package al.uax.servicios;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -19,10 +18,9 @@ public class ServicioEnlazadoAritmeticOps extends Service{
 	public static final int MSG_DIVISION = 3;
 	public static final int MSG_FACTORIAL = 4;
 
-	private static Float val1, val2;
-
-//	private OperationsHandler mHandler;
 	private Messenger mMessenger;
+	
+	private IBinder binder = new OperationBinder();
 	
 	/**
 	 * Clase que se encarga de devolver el servicio a quien se enlaza con el
@@ -32,74 +30,99 @@ public class ServicioEnlazadoAritmeticOps extends Service{
 			return ServicioEnlazadoAritmeticOps.this;
 		}
 	}
-	private OperationBinder mOperationBinder = new OperationBinder();
 	
-	private static class IncomingHandler extends Handler {
-	    @Override
-	    public void handleMessage(Message msg) {
-	        switch (msg.what) {
-	            case MSG_RESTA:
-					val1 = msg.getData().getFloat("val1");
-					val2 = msg.getData().getFloat("val2");
-	            	break;
-	                
-//	            case MSG_SET_VALUE:
-//	                mValue = msg.arg1;
-//	                for (int i=mClients.size()-1; i>=0; i--) {
-//	                    try {
-//	                        mClients.get(i).send(Message.obtain(null,
-//	                                MSG_SET_VALUE, mValue, 0));
-//	                    } catch (RemoteException e) {
-//	                        // The client is dead.  Remove it from the list;
-//	                        // we are going through the list from back to front
-//	                        // so this is safe to do inside the loop.
-//	                        mClients.remove(i);
-//	                    }
-//	                }
-//	                break;
-	            default:
-	                super.handleMessage(msg);
-	        }
-	    }
+	@Override
+	public IBinder onBind(Intent intent) {
+		return binder;
 	}
-	private IncomingHandler mHandler = new IncomingHandler();
-	
-	/**
-	 * Thread que hará el trabajo en segundo plano
-	 */
-	private class OperationThread extends Thread{
-
-		@Override
-		public void run(){
-			try {
-				Log.d(TAG, "VAL1: " + val1);
-				Log.d(TAG, "VAL2: " + val2);
-				
-				mMessenger.send(Message.obtain(null, MSG_RESTA, val1 - val2));
-				
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-			stopSelf();
-		}
-	}
-	private OperationThread mOperationThread;
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
 		Log.d(TAG, "Service - onStartCommand");
 		
-		//Lanza el thread
-		mOperationThread = new OperationThread();
-		mOperationThread.start();
-		
 		//El servicio no debe seguir funcionando una vez parado, por eso devolvemos START_NOT_STICKY
 		return START_NOT_STICKY;
 	}
 	
-	@Override
-	public IBinder onBind(Intent intent) {
-		return mOperationBinder;
+	/**
+	 * Calcular operaciones
+	 */
+	public void calcOperation (final Float x, final Float y, final int oper){
+		Log.d("TAG", "Realizando operacion...");
+		switch(oper){
+		case MSG_RESTA:
+			new Thread( new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(5000);
+						sendMessage(x-y, OperacionesAritmeticas.SOL_OPERACION);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}).start();
+			break;
+			
+		case MSG_MULTIPLICACION:
+			new Thread( new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(5000);
+						sendMessage(x*y, OperacionesAritmeticas.SOL_OPERACION);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}).start();
+			break;
+			
+		case MSG_DIVISION:
+			new Thread( new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(5000);
+						sendMessage(x/y, OperacionesAritmeticas.SOL_OPERACION);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}).start();
+			break;
+		}
+	}
+	
+	public void calcFactorial(final Float x){
+		Log.d("TAG", "Realizando factorial...");
+		new Thread( new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(5000);
+					sendMessage(calcularFactorial(x), OperacionesAritmeticas.SOL_FACTORIAL);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+	
+	private Float calcularFactorial(Float valor) {
+		if(valor < 2)
+			return (float) 1;
+		else {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return valor * calcularFactorial(--valor);
+		}
 	}
 	
 	/**
@@ -109,10 +132,18 @@ public class ServicioEnlazadoAritmeticOps extends Service{
 	public void setMessenger(Messenger messenger) {
 		mMessenger = messenger;
 	}
-
-	public void onDestroy(){
-		super.onDestroy();
-		mOperationThread = null;
+	
+	private void sendMessage(Float res, int oper) {
+		try {
+			Message msg = Message.obtain(null, oper); //10 => oper; 11 => fact
+			msg.obj = res;
+			mMessenger.send(msg);
+		} catch (RemoteException e) {
+			Log.i(TAG, "RemoteException");
+		}
 	}
 	
+	public void onDestroy(){
+		super.onDestroy();
+	}
 }

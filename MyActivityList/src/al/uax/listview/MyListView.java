@@ -32,7 +32,7 @@ public class MyListView extends ListActivity{
 	private ListView list;
 	protected static final int REQUEST_MODIF = 10;
 	protected static final int REQUEST_ADD = 11;
-	private static TravelsDatabaseHelper dbHelper;
+	private static HorarioDatabaseHelper dbHelper;
 	private int posicion;
 
 	@Override
@@ -48,7 +48,7 @@ public class MyListView extends ListActivity{
 //		travels.add(new TravelInfo("Pekin", "China", 2011, "Anotación 5"));
 		
 		//Recuperamos los datos de la base de datos
-		dbHelper = new TravelsDatabaseHelper(this);
+		dbHelper = new HorarioDatabaseHelper(this);
 		travels = dbHelper.getTravelsList();
 		
 		list = (ListView) findViewById(android.R.id.list);

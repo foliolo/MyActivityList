@@ -85,4 +85,24 @@
     <string name="label_xml">Texto parseado</string>
     <string name="image_weather">Imagen del tiempo</string>
     
+    <!-- Texto Telefonia-->
+    <string name="app_name_telefonia">Telefonía</string>
+    
+    <!-- Texto SMS-->
+    <string name="app_name_sms">Mensajes SMS</string>
+    <string name="dest">Destinatario</string>
+    <string name="message">Mensaje</string>
+    <string name="send_intent">Enviar con Intent</string>
+    <string name="send_manager">Enviar con Manager</string>
+    <string name="send_manager_multiple">Enviar mensaje multiple</string>
+    
+    <!-- Texto Localizacion-->
+    <string name="app_name_localizacion">Localización</string>
+    <string name="last_loc">Ultima localizacion</string>
+    <string name="get_loc">Solicitar localizacion</string>
+    <string name="map">Mapa</string>
+    
+    <!-- Texto Localizacion-->
+    <string name="app_name_alerta_proximidad">Alerta de proximidad</string>
+    
 </resources>
