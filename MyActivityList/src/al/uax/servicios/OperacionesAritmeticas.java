@@ -75,7 +75,7 @@ public class OperacionesAritmeticas extends Activity{
 				
 				case SOL_FACTORIAL:
 					total = (Float) msg.obj;
-					solFactorial.setText(total.toString());
+					solFactorial.setText(String.format("%.0f", total));
 					break;
 
 				default:
@@ -171,14 +171,6 @@ public class OperacionesAritmeticas extends Activity{
 	protected void onStop() {
 		super.onStop();
 		Log.d(TAG, "(Stop) Unbinding service...");
-		Toast.makeText(OperacionesAritmeticas.this, "Unbindinding service", Toast.LENGTH_SHORT).show();
-		unbindService(mServiceConnection);
-	}
-	
-	@Override
-	protected void onDestroy(){
-		super.onDestroy();
-		Log.d(TAG, "(Destroy) Unbinding service...");
 		Toast.makeText(OperacionesAritmeticas.this, "Unbindinding service", Toast.LENGTH_SHORT).show();
 		unbindService(mServiceConnection);
 	}

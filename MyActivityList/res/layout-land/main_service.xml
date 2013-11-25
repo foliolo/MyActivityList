@@ -2,16 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <TextView
+    <TextView
         android:id="@+id/labelValue1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
         android:text="@string/labelValue1"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -19,9 +17,8 @@
         android:id="@+id/labelValue2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/labelValue1"
         android:layout_below="@+id/labelValue1"
-        android:layout_marginLeft="5dp"
         android:layout_marginTop="15dp"
         android:text="@string/labelValue2"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -30,55 +27,33 @@
         android:id="@+id/value1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/labelValue2"
-        android:layout_alignRight="@+id/solucion"
-        android:layout_alignTop="@+id/labelValue1"
+        android:layout_alignBaseline="@+id/labelValue1"
+        android:layout_alignBottom="@+id/labelValue1"
+        android:layout_marginLeft="14dp"
         android:layout_toRightOf="@+id/labelValue1"
         android:ems="10"
-        android:inputType="numberDecimal" 
-        android:hint="0">
-
+        android:hint="0"
+        android:inputType="numberDecimal" >
         <requestFocus />
-    </EditText>
+   	</EditText> 
 
     <EditText
         android:id="@+id/value2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnSuma"
+        android:layout_alignBaseline="@+id/labelValue2"
+        android:layout_alignBottom="@+id/labelValue2"
         android:layout_alignLeft="@+id/value1"
-        android:layout_alignRight="@+id/solucion"
-        android:layout_alignTop="@+id/labelValue2" 
-        android:inputType="numberDecimal"  
-        android:hint="0" />
-
-    <TextView
-        android:id="@+id/labelOperacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/labelValue2"
-        android:layout_below="@+id/labelValue2"
-        android:layout_marginTop="35dp"
-        android:text="@string/labelOperacion"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Button
-        android:id="@+id/btnSuma"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/labelOperacion"
-        android:layout_alignBottom="@+id/labelOperacion"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/labelOperacion"
-        android:text="@string/suma" />
+        android:ems="10"
+        android:hint="0"
+        android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/btnResta"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/labelOperacion"
+        android:layout_alignBaseline="@+id/btnSuma"
         android:layout_alignBottom="@+id/btnSuma"
         android:layout_toRightOf="@+id/btnSuma"
         android:text="@string/resta" />
@@ -88,29 +63,18 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/labelOperacion"
-        android:layout_alignBottom="@+id/btnSuma"
+        android:layout_alignBaseline="@+id/btnResta"
+        android:layout_alignBottom="@+id/btnResta"
         android:layout_toRightOf="@+id/btnResta"
         android:text="@string/multiplicacion" />
-
-    <Button
-        android:id="@+id/btnDivision"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/labelOperacion"
-        android:layout_alignBottom="@+id/btnSuma"
-        android:layout_toRightOf="@+id/btnMultiplicacion"
-        android:text="@string/division" />
 
     <TextView
         android:id="@+id/labelSolucion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnSuma"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="23dp"
+        android:layout_alignLeft="@+id/labelValue2"
+        android:layout_below="@+id/value2"
+        android:layout_marginTop="17dp"
         android:text="@string/labelSolucion"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -120,57 +84,82 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/labelSolucion"
         android:layout_alignBottom="@+id/labelSolucion"
-        android:layout_toRightOf="@+id/labelOperacion"
+        android:layout_alignLeft="@+id/value2"
         android:clickable="false"
         android:editable="false"
         android:ems="10"
         android:focusable="false"
         android:inputType="numberDecimal" />
 
-    <TextView
-        android:id="@+id/labelFactorial"
+    <Button
+        android:id="@+id/btnSuma"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/solucion"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/labelFactorial"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_alignTop="@+id/labelValue2"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/value2"
+        android:text="@string/suma" />
+
+    <Button
+        android:id="@+id/btnDivision"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnMultiplicacion"
+        android:layout_alignBottom="@+id/btnMultiplicacion"
+        android:layout_toRightOf="@+id/btnMultiplicacion"
+        android:text="@string/division" />
 
     <EditText
         android:id="@+id/valorFactorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/labelFactorial"
         android:layout_alignBottom="@+id/labelFactorial"
-        android:layout_toLeftOf="@+id/btnMultiplicacion"
-        android:layout_toRightOf="@+id/labelOperacion"
+        android:layout_alignLeft="@+id/solucion"
         android:ems="10"
-        android:inputType="number"  
-        android:hint="1" />
+        android:hint="1"
+        android:inputType="number" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/labelOperacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/value2"
+        android:layout_alignLeft="@+id/btnResta"
+        android:text="@string/labelOperacion"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/labelSolucionFactorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/labelFactorial"
+        android:layout_below="@+id/labelFactorial"
+        android:layout_marginTop="15dp"
+        android:text="@string/labelSolucion"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/labelFactorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/solucion"
+        android:layout_marginTop="54dp"
+        android:layout_toLeftOf="@+id/solucionFactorial"
+        android:text="@string/labelFactorial"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/btnFactorial"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/valorFactorial"
-        android:layout_alignBottom="@+id/valorFactorial"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/valorFactorial"
+        android:layout_alignBottom="@+id/labelSolucionFactorial"
+        android:layout_alignLeft="@+id/btnSuma"
         android:text="@string/txtObtenerFactorial" />
-
-    <TextView
-        android:id="@+id/labelSolucionFactorial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/labelSolucion"
-        android:layout_below="@+id/btnFactorial"
-        android:layout_marginTop="25dp"
-        android:text="@string/labelSolucion"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
+    
     <EditText
         android:id="@+id/solucionFactorial"
         android:layout_width="wrap_content"
